@@ -18,11 +18,14 @@ export default function Home() {
   const CMD = "initialize --mode=agentic --level=extreme";
   useEffect(() => {
     let i = 0;
-    const iv = setInterval(() => {
-      setTyped(CMD.slice(0, ++i));
-      if (i >= CMD.length) clearInterval(iv);
-    }, 45);
-    return () => clearInterval(iv);
+    const t = setTimeout(() => {
+      const iv = setInterval(() => {
+        setTyped(CMD.slice(0, ++i));
+        if (i >= CMD.length) clearInterval(iv);
+      }, 90);
+      return () => clearInterval(iv);
+    }, 1000);
+    return () => clearTimeout(t);
   }, []);
 
   // Uptime counter
