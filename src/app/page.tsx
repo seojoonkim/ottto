@@ -8,7 +8,6 @@ const DIM = "rgba(0,255,159,0.35)";
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [glitch, setGlitch] = useState(false);
   const [litLetters, setLitLetters] = useState<boolean[]>([false,false,false,false,false]);
   const [allLit, setAllLit] = useState(false);
   const [typed, setTyped] = useState("");
@@ -37,17 +36,6 @@ export default function Home() {
       setUptime(`${h}:${m}:${sec}`);
     }, 1000);
     return () => clearInterval(iv);
-  }, []);
-
-  // Glitch
-  useEffect(() => {
-    const schedule = () => {
-      setTimeout(() => {
-        setGlitch(true);
-        setTimeout(() => { setGlitch(false); schedule(); }, 100 + Math.random() * 150);
-      }, 3000 + Math.random() * 5000);
-    };
-    schedule();
   }, []);
 
   // Letter-by-letter light up sequence
@@ -161,10 +149,7 @@ export default function Home() {
         {/* ── LOGO ── */}
         <div style={{ position:"relative", animation:"fadeSlide 0.8s 0.15s ease both", opacity:0 }}>
           {/* Glitch layers */}
-          {glitch && <>
-            <div style={{ position:"absolute", inset:0, fontFamily:"'Inter','Arial Black',sans-serif", fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1, color:"transparent", WebkitTextStroke:"2px #ff003c", transform:`translate(${(Math.random()*8-4).toFixed(1)}px,0)`, opacity:0.6 }}>ottto</div>
-            <div style={{ position:"absolute", inset:0, fontFamily:"'Inter','Arial Black',sans-serif", fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1, color:"transparent", WebkitTextStroke:"2px #00e5ff", transform:`translate(${(Math.random()*-6+3).toFixed(1)}px,2px)`, opacity:0.45 }}>ottto</div>
-          </>}
+
           <div style={{ fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1, display:"flex", justifyContent:"center", fontFamily:"'Inter', Arial Black, sans-serif" }}>
             {"ottto".split("").map((ch, i) => (
               <span key={i} style={{
