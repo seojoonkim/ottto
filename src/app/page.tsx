@@ -40,9 +40,9 @@ export default function Home() {
 
   // Letter-by-letter light up sequence
   useEffect(() => {
-    const STEP = 180; // ms per letter
-    const HOLD = 1200; // ms hold fully lit
-    const PAUSE = 1800; // ms dark pause before restart
+    const STEP = 350; // ms per letter (더 천천히)
+    const HOLD = 1800; // ms hold fully lit
+    const PAUSE = 2200; // ms dark pause before restart
 
     function runCycle() {
       // Light up one by one
@@ -152,7 +152,7 @@ export default function Home() {
           {/* 전체 단어 레이어 — outline only (allLit 시 겹쳐서 외곽선만) */}
           <div style={{ position:"relative" }}>
             {/* Base: 개별 글자 점등 */}
-            <div style={{ fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1, display:"flex", justifyContent:"center", fontFamily:"'Inter', Arial Black, sans-serif" }}>
+            <div style={{ fontWeight:900, fontSize:"clamp(106px,22vw,148px)", letterSpacing:"-3px", lineHeight:1, display:"flex", justifyContent:"center", fontFamily:"'Inter', Arial Black, sans-serif" }}>
               {"ottto".split("").map((ch, i) => (
                 <span key={i} style={{
                   display:"inline-block",
@@ -169,11 +169,11 @@ export default function Home() {
               <div style={{
                 position:"absolute", inset:0,
                 display:"flex", justifyContent:"center", alignItems:"center",
-                fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1,
+                fontWeight:900, fontSize:"clamp(106px,22vw,148px)", letterSpacing:"-3px", lineHeight:1,
                 fontFamily:"'Inter', Arial Black, sans-serif",
                 color:"transparent",
-                WebkitTextStroke:"1.5px rgba(0,255,159,0.9)",
-                textShadow:`0 0 40px rgba(0,255,159,0.9), 0 0 80px rgba(0,255,159,0.5), 0 0 120px rgba(0,255,159,0.25)`,
+                WebkitTextStroke:"1px rgba(0,255,159,0.6)",
+                textShadow:`0 0 20px rgba(0,255,159,0.5), 0 0 40px rgba(0,255,159,0.2)`,
                 pointerEvents:"none",
               }}>
                 ottto
@@ -184,9 +184,9 @@ export default function Home() {
               <div style={{
                 position:"absolute", inset:0,
                 display:"flex", justifyContent:"center", alignItems:"center",
-                fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1,
+                fontWeight:900, fontSize:"clamp(106px,22vw,148px)", letterSpacing:"-3px", lineHeight:1,
                 fontFamily:"'Inter', Arial Black, sans-serif",
-                color:"rgba(255,255,255,0.92)",
+                color:"rgba(255,255,255,0.88)",
                 pointerEvents:"none",
               }}>
                 ottto
@@ -219,7 +219,7 @@ export default function Home() {
         </div>
 
         {/* ── Mini terminal log ── */}
-        <div style={{ marginTop:28, fontFamily:"monospace", fontSize:"clamp(8px,1.8vw,10px)", color:"rgba(0,255,159,0.22)", letterSpacing:"0.08em", lineHeight:1.9, textAlign:"left", animation:"fadeSlide 1s 0.7s ease both", opacity:0, maxWidth:320, width:"100%" }}>
+        <div style={{ marginTop:28, fontFamily:"monospace", fontSize:"clamp(8px,1.8vw,10px)", color:"rgba(0,255,159,0.22)", letterSpacing:"0.08em", lineHeight:1.9, textAlign:"center", animation:"fadeSlide 1s 0.7s ease both", opacity:0, maxWidth:320, width:"100%" }}>
           {[
             "[OK]  agent runtime initialized",
             "[OK]  deploying experimental builds",
