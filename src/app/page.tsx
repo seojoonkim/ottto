@@ -9,6 +9,8 @@ const DIM = "rgba(0,255,159,0.35)";
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [glitch, setGlitch] = useState(false);
+  const [litLetters, setLitLetters] = useState<boolean[]>([false,false,false,false,false]);
+  const [allLit, setAllLit] = useState(false);
   const [typed, setTyped] = useState("");
   const [uptime, setUptime] = useState("00:00:00");
   const [memUsage] = useState((Math.random() * 30 + 55).toFixed(1));
@@ -46,6 +48,34 @@ export default function Home() {
       }, 3000 + Math.random() * 5000);
     };
     schedule();
+  }, []);
+
+  // Letter-by-letter light up sequence
+  useEffect(() => {
+    const STEP = 180; // ms per letter
+    const HOLD = 1200; // ms hold fully lit
+    const PAUSE = 1800; // ms dark pause before restart
+
+    function runCycle() {
+      // Light up one by one
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          setLitLetters(prev => { const n=[...prev]; n[i]=true; return n; });
+          if (i === 4) {
+            // All lit — show outline
+            setTimeout(() => setAllLit(true), 60);
+            // Hold then reset
+            setTimeout(() => {
+              setAllLit(false);
+              setLitLetters([false,false,false,false,false]);
+              setTimeout(runCycle, PAUSE);
+            }, HOLD);
+          }
+        }, i * STEP);
+      }
+    }
+    const t = setTimeout(runCycle, 600);
+    return () => clearTimeout(t);
   }, []);
 
   // Anti-gravity particle canvas
@@ -141,9 +171,19 @@ export default function Home() {
             <div style={{ position:"absolute", inset:0, fontFamily:"'Helvetica Neue',Helvetica,Arial,sans-serif", fontWeight:900, fontSize:"clamp(72px,16vw,148px)", letterSpacing:"-3px", lineHeight:1, color:"transparent", WebkitTextStroke:"2px #ff003c", transform:`translate(${(Math.random()*8-4).toFixed(1)}px,0)`, opacity:0.6 }}>ottto</div>
             <div style={{ position:"absolute", inset:0, fontFamily:"'Helvetica Neue',Helvetica,Arial,sans-serif", fontWeight:900, fontSize:"clamp(72px,16vw,148px)", letterSpacing:"-3px", lineHeight:1, color:"transparent", WebkitTextStroke:"2px #00e5ff", transform:`translate(${(Math.random()*-6+3).toFixed(1)}px,2px)`, opacity:0.45 }}>ottto</div>
           </>}
-          <div style={{ fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1, color:"#fff", display:"flex", justifyContent:"center" }}>
+          <div style={{ fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1, display:"flex", justifyContent:"center" }}>
             {"ottto".split("").map((ch, i) => (
-              <span key={i} style={{ animation:`breathe 3.5s ${i * 0.45}s ease-in-out infinite`, display:"inline-block" }}>{ch}</span>
+              <span key={i} style={{
+                display:"inline-block",
+                transition:"opacity 0.15s ease, text-shadow 0.2s ease, color 0.15s ease",
+                color: litLetters[i] ? "#fff" : "rgba(255,255,255,0.08)",
+                textShadow: allLit
+                  ? `0 0 30px rgba(0,255,159,0.9), 0 0 60px rgba(0,255,159,0.5), 0 0 100px rgba(0,255,159,0.25)`
+                  : litLetters[i]
+                  ? `0 0 20px rgba(0,255,159,0.6), 0 0 40px rgba(0,255,159,0.3)`
+                  : "none",
+                WebkitTextStroke: allLit ? `1px rgba(0,255,159,0.8)` : "none",
+              }}>{ch}</span>
             ))}
           </div>
           {/* Underline */}
