@@ -136,7 +136,6 @@ export default function Home() {
             { label:"SYS", value:"ONLINE" },
             { label:"MODE", value:"AGENTIC" },
             { label:"UPTIME", value:uptime },
-            { label:"MEM", value:`${memUsage}%` },
           ].map((item, i) => (
             <div key={i} style={{ fontFamily:"monospace", fontSize:"clamp(9px,2vw,11px)", letterSpacing:"0.15em", padding:"4px 10px", border:`1px solid ${DIM}`, borderRadius:3, background:"rgba(0,255,159,0.04)", color:DIM, display:"flex", gap:6, alignItems:"center" }}>
               <span style={{ color:"rgba(0,255,159,0.25)" }}>{item.label}</span>
@@ -150,20 +149,49 @@ export default function Home() {
         <div style={{ position:"relative", animation:"fadeSlide 0.8s 0.15s ease both", opacity:0 }}>
           {/* Glitch layers */}
 
-          <div style={{ fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1, display:"flex", justifyContent:"center", fontFamily:"'Inter', Arial Black, sans-serif" }}>
-            {"ottto".split("").map((ch, i) => (
-              <span key={i} style={{
-                display:"inline-block",
-                transition:"opacity 0.15s ease, text-shadow 0.2s ease, color 0.15s ease",
-                color: litLetters[i] ? "#fff" : "rgba(255,255,255,0.08)",
-                textShadow: allLit
-                  ? `0 0 30px rgba(0,255,159,0.9), 0 0 60px rgba(0,255,159,0.5), 0 0 100px rgba(0,255,159,0.25)`
-                  : litLetters[i]
-                  ? `0 0 20px rgba(0,255,159,0.6), 0 0 40px rgba(0,255,159,0.3)`
-                  : "none",
-                WebkitTextStroke: allLit ? `1px rgba(0,255,159,0.8)` : "none",
-              }}>{ch}</span>
-            ))}
+          {/* 전체 단어 레이어 — outline only (allLit 시 겹쳐서 외곽선만) */}
+          <div style={{ position:"relative" }}>
+            {/* Base: 개별 글자 점등 */}
+            <div style={{ fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1, display:"flex", justifyContent:"center", fontFamily:"'Inter', Arial Black, sans-serif" }}>
+              {"ottto".split("").map((ch, i) => (
+                <span key={i} style={{
+                  display:"inline-block",
+                  transition:"opacity 0.15s ease, text-shadow 0.2s ease, color 0.15s ease",
+                  color: litLetters[i] ? "#fff" : "rgba(255,255,255,0.08)",
+                  textShadow: litLetters[i] && !allLit
+                    ? `0 0 20px rgba(0,255,159,0.6), 0 0 40px rgba(0,255,159,0.3)`
+                    : "none",
+                }}>{ch}</span>
+              ))}
+            </div>
+            {/* Overlay: allLit 시 전체 단어 외곽선 (내부 선 없음) */}
+            {allLit && (
+              <div style={{
+                position:"absolute", inset:0,
+                display:"flex", justifyContent:"center", alignItems:"center",
+                fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1,
+                fontFamily:"'Inter', Arial Black, sans-serif",
+                color:"transparent",
+                WebkitTextStroke:"1.5px rgba(0,255,159,0.9)",
+                textShadow:`0 0 40px rgba(0,255,159,0.9), 0 0 80px rgba(0,255,159,0.5), 0 0 120px rgba(0,255,159,0.25)`,
+                pointerEvents:"none",
+              }}>
+                ottto
+              </div>
+            )}
+            {/* White glow fill allLit */}
+            {allLit && (
+              <div style={{
+                position:"absolute", inset:0,
+                display:"flex", justifyContent:"center", alignItems:"center",
+                fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1,
+                fontFamily:"'Inter', Arial Black, sans-serif",
+                color:"rgba(255,255,255,0.92)",
+                pointerEvents:"none",
+              }}>
+                ottto
+              </div>
+            )}
           </div>
           {/* Underline */}
           <div style={{ marginTop:6, height:2, background:`linear-gradient(to right, transparent, ${GREEN}, ${CYAN}, transparent)`, borderRadius:2, animation:"underlineGlow 3s ease-in-out infinite" }} />
