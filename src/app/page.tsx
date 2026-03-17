@@ -22,7 +22,7 @@ export default function Home() {
       const iv = setInterval(() => {
         setTyped(CMD.slice(0, ++i));
         if (i >= CMD.length) clearInterval(iv);
-      }, 90);
+      }, 180);
       return () => clearInterval(iv);
     }, 1000);
     return () => clearTimeout(t);
