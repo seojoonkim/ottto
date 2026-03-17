@@ -225,18 +225,7 @@ export default function Home() {
           ))}
         </div>
 
-        {/* ── Status badges ── */}
-        <div style={{ display:"flex", gap:"clamp(6px,2vw,12px)", marginTop:28, flexWrap:"wrap", justifyContent:"center", animation:"fadeSlide 1s 0.9s ease both", opacity:0 }}>
-          {[
-            { label:"● ONLINE", color:GREEN },
-            { label:"⚡ BUILDING", color:CYAN },
-            { label:"🚀 SHIPPING", color:"#b388ff" },
-          ].map((b, i) => (
-            <div key={i} style={{ fontFamily:"monospace", fontSize:"clamp(8px,1.8vw,10px)", letterSpacing:"0.2em", padding:"4px 12px", border:`1px solid ${b.color}25`, color:`${b.color}70`, borderRadius:2, background:`${b.color}06` }}>
-              {b.label}
-            </div>
-          ))}
-        </div>
+
 
       </div>
 
