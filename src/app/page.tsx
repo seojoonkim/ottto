@@ -106,12 +106,6 @@ export default function Home() {
       ctx.clearRect(0, 0, W, H);
       frame++;
 
-      // Grid
-      ctx.strokeStyle = "rgba(0,255,159,0.035)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < W; x += 56) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-      for (let y = 0; y < H; y += 56) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
-
       // Scanlines
       for (let y = 0; y < H; y += 3) { ctx.fillStyle = "rgba(0,0,0,0.06)"; ctx.fillRect(0, y, W, 1); }
 
