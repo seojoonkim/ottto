@@ -1,21 +1,13 @@
 export default function Home() {
   return (
-    <main
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-        background: "#000",
-      }}
-    >
+    <main className="flex min-h-screen items-center justify-center bg-black">
       <span
         style={{
-          fontFamily: "'Inter', sans-serif",
-          fontWeight: 100,
+          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+          fontWeight: 300,
           fontSize: "clamp(3rem, 10vw, 8rem)",
-          letterSpacing: "0.25em",
-          color: "#fff",
+          letterSpacing: "0.15em",
+          color: "#ffffff",
           userSelect: "none",
         }}
       >
