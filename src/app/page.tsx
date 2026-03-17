@@ -213,7 +213,7 @@ export default function Home() {
         {/* ── Catchphrase ── */}
         <div style={{ display:"flex", flexDirection:"column", gap:10, animation:"fadeSlide 0.9s 0.5s ease both", opacity:0 }}>
           <p style={{ fontWeight:700, fontSize:"clamp(10px,2.5vw,13px)", letterSpacing:"0.38em", color:GREEN, textTransform:"uppercase", textShadow:`0 0 20px rgba(0,255,159,0.4)`, margin:0 }}>
-            The most extreme agentic lab on earth
+            The most extreme agentic lab on the planet
           </p>
           <p style={{ fontFamily:"monospace", fontWeight:400, fontSize:"clamp(9px,1.8vw,11px)", letterSpacing:"0.2em", color:`rgba(0,229,255,0.45)`, textTransform:"uppercase", margin:0 }}>
             // we build · we break · we ship agents
