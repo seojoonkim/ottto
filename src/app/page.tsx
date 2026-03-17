@@ -190,6 +190,7 @@ export default function Home() {
             color: "#ffffff",
             textShadow: "0 0 40px rgba(0,255,159,0.3), 0 0 80px rgba(0,255,159,0.1)",
             position: "relative",
+            animation: "pulse 3s ease-in-out infinite",
           }}>
             ottto
           </div>
@@ -263,6 +264,24 @@ export default function Home() {
         @keyframes blink {
           0%, 100% { opacity: 1; }
           50% { opacity: 0; }
+        }
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+            text-shadow: 0 0 40px rgba(0,255,159,0.4), 0 0 80px rgba(0,255,159,0.15);
+          }
+          30% {
+            opacity: 0.15;
+            text-shadow: none;
+          }
+          50% {
+            opacity: 0.08;
+            text-shadow: none;
+          }
+          70% {
+            opacity: 0.6;
+            text-shadow: 0 0 20px rgba(0,255,159,0.2);
+          }
         }
       `}</style>
     </main>
