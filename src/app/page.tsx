@@ -11,164 +11,219 @@ export default function Home() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
 
-    const particles: {
-      x: number; y: number; r: number;
-      vx: number; vy: number; alpha: number; va: number;
-    }[] = [];
+    // Grid dot field
+    const SPACING = 40;
+    const dots: { x: number; y: number; base: number; val: number; speed: number }[] = [];
 
-    for (let i = 0; i < 80; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.5 + 0.3,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        alpha: Math.random() * 0.5 + 0.1,
-        va: (Math.random() - 0.5) * 0.005,
-      });
+    for (let x = 0; x < width; x += SPACING) {
+      for (let y = 0; y < height; y += SPACING) {
+        dots.push({
+          x: x + SPACING / 2,
+          y: y + SPACING / 2,
+          base: Math.random() * Math.PI * 2,
+          val: 0,
+          speed: 0.003 + Math.random() * 0.004,
+        });
+      }
     }
 
+    let t = 0;
     let raf: number;
+
     function draw() {
       if (!ctx || !canvas) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.alpha += p.va;
-        if (p.alpha < 0.05) p.va = Math.abs(p.va);
-        if (p.alpha > 0.6) p.va = -Math.abs(p.va);
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+      ctx.clearRect(0, 0, width, height);
+      t += 1;
+
+      for (const d of dots) {
+        const wave = Math.sin(d.base + t * d.speed + d.x * 0.008 + d.y * 0.005);
+        const alpha = (wave + 1) / 2 * 0.25 + 0.03;
+        const r = (wave + 1) / 2 * 1.5 + 0.5;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(180, 160, 255, ${p.alpha})`;
+        ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
         ctx.fill();
       }
+
       raf = requestAnimationFrame(draw);
     }
+
     draw();
 
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    const onResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", onResize);
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#07050F]">
-      {/* 배경 그라디언트 */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#2a1a5e] opacity-20 blur-[120px]" />
-        <div className="absolute left-1/4 top-1/3 h-[300px] w-[300px] rounded-full bg-[#1a0a3e] opacity-15 blur-[80px]" />
-        <div className="absolute right-1/4 bottom-1/3 h-[250px] w-[250px] rounded-full bg-[#0d1a4a] opacity-20 blur-[80px]" />
-      </div>
+    <main
+      style={{
+        position: "relative",
+        minHeight: "100vh",
+        background: "#000000",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+      }}
+    >
+      {/* Animated dot grid */}
+      <canvas
+        ref={canvasRef}
+        style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+      />
 
-      {/* 파티클 캔버스 */}
-      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 opacity-60" />
+      {/* Subtle center glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 600,
+          height: 600,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
 
-      {/* 콘텐츠 */}
-      <div className="relative z-10 flex flex-col items-center gap-8 px-6 text-center">
-        {/* SVG 로고 */}
-        <div className="logo-float">
-          <svg
-            viewBox="0 0 320 90"
-            width="320"
-            height="90"
-            xmlns="http://www.w3.org/2000/svg"
-            className="select-none"
+      {/* Content */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 10,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 28,
+          textAlign: "center",
+          padding: "0 24px",
+        }}
+      >
+        {/* Logo */}
+        <svg
+          viewBox="0 0 380 80"
+          width="340"
+          height="72"
+          style={{ display: "block", animation: "fadeIn 1.2s ease forwards" }}
+        >
+          <defs>
+            <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.7" />
+              <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
+              <stop offset="100%" stopColor="#ffffff" stopOpacity="0.7" />
+            </linearGradient>
+          </defs>
+          <text
+            x="50%"
+            y="62"
+            textAnchor="middle"
+            fill="url(#g)"
+            style={{
+              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+              fontSize: "80px",
+              fontWeight: 200,
+              letterSpacing: "24px",
+            }}
           >
-            <defs>
-              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#c4b5fd" />
-                <stop offset="50%" stopColor="#a78bfa" />
-                <stop offset="100%" stopColor="#818cf8" />
-              </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            <text
-              x="50%"
-              y="72"
-              textAnchor="middle"
-              fill="url(#logoGrad)"
-              filter="url(#glow)"
-              style={{
-                fontFamily: "'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive",
-                fontSize: "72px",
-                fontWeight: "bold",
-                letterSpacing: "8px",
-              }}
-            >
-              ottto
-            </text>
-          </svg>
+            ottto
+          </text>
+        </svg>
+
+        {/* Divider */}
+        <div
+          style={{
+            width: 1,
+            height: 32,
+            background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.3), transparent)",
+            animation: "fadeIn 1.4s ease forwards",
+          }}
+        />
+
+        {/* Catchphrase */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
+            animation: "slideUp 1s 0.4s ease both",
+            opacity: 0,
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+              fontWeight: 300,
+              fontSize: "clamp(13px, 2.5vw, 16px)",
+              letterSpacing: "0.35em",
+              color: "rgba(255,255,255,0.85)",
+              textTransform: "uppercase",
+            }}
+          >
+            The most extreme agentic lab on earth.
+          </p>
+          <p
+            style={{
+              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+              fontWeight: 300,
+              fontSize: "clamp(10px, 1.8vw, 12px)",
+              letterSpacing: "0.2em",
+              color: "rgba(255,255,255,0.35)",
+              textTransform: "uppercase",
+            }}
+          >
+            We build. We break. We ship agents.
+          </p>
         </div>
 
-        {/* 구분선 */}
-        <div className="h-px w-32 bg-gradient-to-r from-transparent via-purple-400 to-transparent opacity-50" />
-
-        {/* 캐치프레이즈 */}
-        <div className="catchphrase max-w-sm space-y-2">
-          <p className="text-sm font-light tracking-[0.25em] text-purple-200 opacity-80 uppercase">
-            where agents go feral
-          </p>
-          <p className="text-xs text-purple-300 opacity-50 tracking-widest">
-            극단적으로 agentic한 실험과 빌딩이 일어나는 곳
-          </p>
-        </div>
-
-        {/* 점 3개 장식 */}
-        <div className="flex gap-2 mt-2">
+        {/* Three dots */}
+        <div
+          style={{
+            display: "flex",
+            gap: 8,
+            marginTop: 4,
+            animation: "slideUp 1s 0.7s ease both",
+            opacity: 0,
+          }}
+        >
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className="dot-pulse h-1 w-1 rounded-full bg-purple-400 opacity-60"
-              style={{ animationDelay: `${i * 0.3}s` }}
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                background: "rgba(255,255,255,0.3)",
+                animation: `blink 2s ${i * 0.4}s ease-in-out infinite`,
+              }}
             />
           ))}
         </div>
       </div>
 
       <style jsx>{`
-        .logo-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-
-        .catchphrase {
-          animation: fadeIn 2s ease-in forwards;
-          opacity: 0;
-          animation-delay: 0.5s;
-        }
         @keyframes fadeIn {
+          from { opacity: 0; }
           to { opacity: 1; }
         }
-
-        .dot-pulse {
-          animation: pulse 1.5s ease-in-out infinite;
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes pulse {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 0.8; transform: scale(1.4); }
+        @keyframes blink {
+          0%, 100% { opacity: 0.2; transform: scale(1); }
+          50% { opacity: 0.7; transform: scale(1.4); }
         }
       `}</style>
     </main>
