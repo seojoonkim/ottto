@@ -141,7 +141,7 @@ export default function Home() {
             <div style={{ position:"absolute", inset:0, fontFamily:"'Helvetica Neue',Helvetica,Arial,sans-serif", fontWeight:900, fontSize:"clamp(72px,16vw,148px)", letterSpacing:"-3px", lineHeight:1, color:"transparent", WebkitTextStroke:"2px #ff003c", transform:`translate(${(Math.random()*8-4).toFixed(1)}px,0)`, opacity:0.6 }}>ottto</div>
             <div style={{ position:"absolute", inset:0, fontFamily:"'Helvetica Neue',Helvetica,Arial,sans-serif", fontWeight:900, fontSize:"clamp(72px,16vw,148px)", letterSpacing:"-3px", lineHeight:1, color:"transparent", WebkitTextStroke:"2px #00e5ff", transform:`translate(${(Math.random()*-6+3).toFixed(1)}px,2px)`, opacity:0.45 }}>ottto</div>
           </>}
-          <div style={{ fontWeight:900, fontSize:"clamp(72px,16vw,148px)", letterSpacing:"-3px", lineHeight:1, color:"#fff", display:"flex", justifyContent:"center" }}>
+          <div style={{ fontWeight:900, fontSize:"clamp(96px,20vw,148px)", letterSpacing:"-3px", lineHeight:1, color:"#fff", display:"flex", justifyContent:"center" }}>
             {"ottto".split("").map((ch, i) => (
               <span key={i} style={{ animation:`breathe 3.5s ${i * 0.45}s ease-in-out infinite`, display:"inline-block" }}>{ch}</span>
             ))}
