@@ -199,7 +199,7 @@ export default function Home() {
             </div>
           </div>
           {/* Underline */}
-          <div style={{ marginTop:6, height:2, background:`linear-gradient(to right, transparent, ${GREEN}, ${CYAN}, transparent)`, borderRadius:2, animation:"underlineGlow 3s ease-in-out infinite" }} />
+          <div style={{ marginTop:6, height:2, background:`linear-gradient(to right, transparent, ${GREEN}, ${CYAN}, transparent)`, borderRadius:2, animation:"underlineGlow 10s ease-in-out infinite" }} />
         </div>
 
         {/* ── Terminal command line ── */}
@@ -257,10 +257,10 @@ export default function Home() {
           75%     { opacity:0.65; text-shadow:0 0 30px rgba(0,255,159,0.2); }
         }
         @keyframes underlineGlow {
-          0%   { opacity:0.15; background-size:30% 100%; background-position:0% center; }
-          40%  { opacity:0.9;  background-size:100% 100%; background-position:50% center; }
-          70%  { opacity:0.5;  background-size:60% 100%; background-position:100% center; }
-          100% { opacity:0.15; background-size:30% 100%; background-position:0% center; }
+          0%   { opacity:0.08; background-size:20% 100%; background-position:0% center; }
+          40%  { opacity:0.45; background-size:90% 100%; background-position:50% center; }
+          70%  { opacity:0.25; background-size:50% 100%; background-position:100% center; }
+          100% { opacity:0.08; background-size:20% 100%; background-position:0% center; }
         }
         @media (max-width:480px) {
           main { padding:24px 0; }
