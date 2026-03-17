@@ -55,8 +55,10 @@ export default function Home() {
             // Hold then reset
             setTimeout(() => {
               setAllLit(false);
-              setLitLetters([false,false,false,false,false]);
-              setTimeout(runCycle, PAUSE);
+              setTimeout(() => {
+                setLitLetters([false,false,false,false,false]);
+                setTimeout(runCycle, PAUSE);
+              }, 1000); // fade out 후 리셋
             }, HOLD);
           }
         }, i * STEP);
@@ -156,7 +158,7 @@ export default function Home() {
               {"ottto".split("").map((ch, i) => (
                 <span key={i} style={{
                   display:"inline-block",
-                  transition:"opacity 0.15s ease, text-shadow 0.2s ease, color 0.15s ease",
+                  transition:"opacity 0.5s ease, text-shadow 0.7s ease, color 0.5s ease",
                   color: litLetters[i] ? "#fff" : "rgba(255,255,255,0.08)",
                   textShadow: litLetters[i] && !allLit
                     ? `0 0 20px rgba(0,255,159,0.6), 0 0 40px rgba(0,255,159,0.3)`
@@ -165,33 +167,33 @@ export default function Home() {
               ))}
             </div>
             {/* Overlay: allLit 시 전체 단어 외곽선 (내부 선 없음) */}
-            {allLit && (
-              <div style={{
-                position:"absolute", inset:0,
-                display:"flex", justifyContent:"center", alignItems:"center",
-                fontWeight:900, fontSize:"clamp(106px,22vw,148px)", letterSpacing:"-3px", lineHeight:1,
-                fontFamily:"'Inter', Arial Black, sans-serif",
-                color:"transparent",
-                WebkitTextStroke:"1px rgba(0,255,159,0.6)",
-                textShadow:`0 0 20px rgba(0,255,159,0.5), 0 0 40px rgba(0,255,159,0.2)`,
-                pointerEvents:"none",
-              }}>
-                ottto
-              </div>
-            )}
+            <div style={{
+              position:"absolute", inset:0,
+              display:"flex", justifyContent:"center", alignItems:"center",
+              fontWeight:900, fontSize:"clamp(106px,22vw,148px)", letterSpacing:"-3px", lineHeight:1,
+              fontFamily:"'Inter', Arial Black, sans-serif",
+              color:"transparent",
+              WebkitTextStroke:"1px rgba(0,255,159,0.6)",
+              textShadow:`0 0 20px rgba(0,255,159,0.5), 0 0 40px rgba(0,255,159,0.2)`,
+              pointerEvents:"none",
+              opacity: allLit ? 1 : 0,
+              transition: "opacity 1.2s ease",
+            }}>
+              ottto
+            </div>
             {/* White glow fill allLit */}
-            {allLit && (
-              <div style={{
-                position:"absolute", inset:0,
-                display:"flex", justifyContent:"center", alignItems:"center",
-                fontWeight:900, fontSize:"clamp(106px,22vw,148px)", letterSpacing:"-3px", lineHeight:1,
-                fontFamily:"'Inter', Arial Black, sans-serif",
-                color:"rgba(255,255,255,0.88)",
-                pointerEvents:"none",
-              }}>
-                ottto
-              </div>
-            )}
+            <div style={{
+              position:"absolute", inset:0,
+              display:"flex", justifyContent:"center", alignItems:"center",
+              fontWeight:900, fontSize:"clamp(106px,22vw,148px)", letterSpacing:"-3px", lineHeight:1,
+              fontFamily:"'Inter', Arial Black, sans-serif",
+              color:"rgba(255,255,255,0.88)",
+              pointerEvents:"none",
+              opacity: allLit ? 1 : 0,
+              transition: "opacity 1.2s ease",
+            }}>
+              ottto
+            </div>
           </div>
           {/* Underline */}
           <div style={{ marginTop:6, height:2, background:`linear-gradient(to right, transparent, ${GREEN}, ${CYAN}, transparent)`, borderRadius:2, animation:"underlineGlow 3s ease-in-out infinite" }} />
